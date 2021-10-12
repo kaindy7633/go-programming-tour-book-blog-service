@@ -156,6 +156,8 @@ paths:
       summary: 删除标签
     get:
       description: 获取单个标签
+      produces:
+      - application/json
       summary: 获取单个标签
     put:
       parameters:

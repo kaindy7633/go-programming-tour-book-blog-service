@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os/exec"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -30,6 +31,12 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupLogger err: %v", err)
 	}
+
+	// 自动生成swagger文档 json
+	if swagInitErr := exec.Command("swag", "init").Run(); swagInitErr != nil {
+		panic(swagInitErr)
+	}
+	fmt.Println("swagger.json生成成功")
 }
 
 // @title 博客系统
