@@ -1,3 +1,4 @@
+basePath: /api/v1
 definitions:
   app.Pager:
     properties:
@@ -40,15 +41,24 @@ definitions:
       pager:
         $ref: '#/definitions/app.Pager'
     type: object
+host: http://127.0.0.1:8000
 info:
-  contact: {}
-  description: Go 语言编程之旅：一起用 Go 做项目
+  contact:
+    email: support@swagger.io
+    name: 联系人信息
+    url: https://www.swagger.io/support 网址
+  description: Go 语言编程之旅：一起用 Go 做项目 (描述信息)
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: https://github.com/kaindy7633/go-programming-tour-book-blog-service
-  title: 博客系统
+  title: 博客系统 (这里是标题)
   version: "1.0"
 paths:
   /api/v1/tags:
     get:
+      consumes:
+      - application/json
       parameters:
       - description: 标签名称
         in: query
@@ -87,7 +97,11 @@ paths:
           schema:
             $ref: '#/definitions/errcode.Error'
       summary: 获取多个标签
+      tags:
+      - 标签模块相关接口
     post:
+      consumes:
+      - application/json
       parameters:
       - description: 标签名称
         in: body
@@ -130,6 +144,8 @@ paths:
           schema:
             $ref: '#/definitions/errcode.Error'
       summary: 新增标签
+      tags:
+      - 标签模块相关接口
   /api/v1/tags/{id}:
     delete:
       parameters:
@@ -154,11 +170,15 @@ paths:
           schema:
             $ref: '#/definitions/errcode.Error'
       summary: 删除标签
+      tags:
+      - 标签模块相关接口
     get:
       description: 获取单个标签
       produces:
       - application/json
       summary: 获取单个标签
+      tags:
+      - 标签模块相关接口
     put:
       parameters:
       - description: 标签 ID
@@ -208,4 +228,6 @@ paths:
           schema:
             $ref: '#/definitions/errcode.Error'
       summary: 更新标签
+      tags:
+      - 标签模块相关接口
 swagger: "2.0"

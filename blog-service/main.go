@@ -39,10 +39,20 @@ func init() {
 	fmt.Println("swagger.json生成成功")
 }
 
-// @title 博客系统
+// @title 博客系统 (这里是标题)
 // @version 1.0
-// @description Go 语言编程之旅：一起用 Go 做项目
+// @description Go 语言编程之旅：一起用 Go 做项目 (描述信息)
 // @termsOfService https://github.com/kaindy7633/go-programming-tour-book-blog-service
+
+// @contact.name 联系人信息
+// @contact.url https://www.swagger.io/support 网址
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host http://127.0.0.1:8000
+// @BasePath /api/v1
 func main() {
 	global.Logger.Infof("%s: go-programming-tour-book/%s", "eddycjy", "blog-service")
 	gin.SetMode(global.ServerSetting.RunMode)

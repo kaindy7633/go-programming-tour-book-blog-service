@@ -18,7 +18,15 @@ var doc = `{
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "termsOfService": "https://github.com/kaindy7633/go-programming-tour-book-blog-service",
-        "contact": {},
+        "contact": {
+            "name": "联系人信息",
+            "url": "https://www.swagger.io/support 网址",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -26,8 +34,14 @@ var doc = `{
     "paths": {
         "/api/v1/tags": {
             "get": {
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "标签模块相关接口"
                 ],
                 "summary": "获取多个标签",
                 "parameters": [
@@ -84,8 +98,14 @@ var doc = `{
                 }
             },
             "post": {
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "标签模块相关接口"
                 ],
                 "summary": "新增标签",
                 "parameters": [
@@ -153,11 +173,17 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "标签模块相关接口"
+                ],
                 "summary": "获取单个标签"
             },
             "put": {
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "标签模块相关接口"
                 ],
                 "summary": "更新标签",
                 "parameters": [
@@ -230,6 +256,9 @@ var doc = `{
             "delete": {
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "标签模块相关接口"
                 ],
                 "summary": "删除标签",
                 "parameters": [
@@ -343,11 +372,11 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "",
-	BasePath:    "",
+	Host:        "http://127.0.0.1:8000",
+	BasePath:    "/api/v1",
 	Schemes:     []string{},
-	Title:       "博客系统",
-	Description: "Go 语言编程之旅：一起用 Go 做项目",
+	Title:       "博客系统 (这里是标题)",
+	Description: "Go 语言编程之旅：一起用 Go 做项目 (描述信息)",
 }
 
 type s struct{}
