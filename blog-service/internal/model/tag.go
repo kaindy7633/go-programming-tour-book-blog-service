@@ -7,8 +7,8 @@ import (
 
 type Tag struct {
 	*Model
-	Name  string `json:"name"`
-	State uint8  `json:"state"`
+	Name  string `json:"name" example:"Kaindy"`
+	State uint8  `json:"state" example:"1"`
 }
 
 type TagSwagger struct {
@@ -42,7 +42,7 @@ func (t Tag) List(db *gorm.DB, pageOffset, pageSize int) ([]*Tag, error) {
 	if t.Name != "" {
 		db = db.Where("name = ?", t.Name)
 	}
-	db = db.Where("state = ?", t.Name)
+	db = db.Where("state = ?", t.State)
 	if err = db.Where("is_del = ?", 0).Find(&tags).Error; err != nil {
 		return nil, err
 	}
@@ -53,8 +53,13 @@ func (t Tag) Create(db *gorm.DB) error {
 	return db.Create(&t).Error
 }
 
-func (t Tag) Update(db *gorm.DB) error {
-	return db.Model(&Tag{}).Where("id = ? AND is_del = ?", t.ID, 0).Update(t).Error
+func (t Tag) Update(db *gorm.DB, values interface{}) error {
+	// return db.Model(&Tag{}).Where("id = ? AND is_del = ?", t.ID, 0).Update(t).Error
+	err := db.Model(t).Where("id = ? AND is_del = ?", t.ID).Update(values).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (t Tag) Delete(db *gorm.DB) error {

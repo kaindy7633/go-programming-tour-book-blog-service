@@ -98,6 +98,7 @@ var doc = `{
                 }
             },
             "post": {
+                "description": "创建一个薪的标签",
                 "consumes": [
                     "application/json"
                 ],
@@ -107,41 +108,15 @@ var doc = `{
                 "tags": [
                     "标签模块相关接口"
                 ],
-                "summary": "新增标签",
+                "summary": "创建标签",
                 "parameters": [
                     {
-                        "maxLength": 100,
-                        "minLength": 3,
-                        "description": "标签名称",
-                        "name": "name",
+                        "description": "创建标签结构体",
+                        "name": "tag",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "primitive"
-                        }
-                    },
-                    {
-                        "enum": [
-                            0,
-                            1
-                        ],
-                        "default": 1,
-                        "description": "状态",
-                        "name": "state",
-                        "in": "body",
-                        "schema": {
-                            "type": "primitive"
-                        }
-                    },
-                    {
-                        "maxLength": 100,
-                        "minLength": 3,
-                        "description": "创建者",
-                        "name": "created_by",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "primitive"
+                            "$ref": "#/definitions/service.CreateTagRequest"
                         }
                     }
                 ],
@@ -149,7 +124,7 @@ var doc = `{
                     "200": {
                         "description": "成功",
                         "schema": {
-                            "$ref": "#/definitions/model.Tag"
+                            "$ref": "#/definitions/model.TagSwagger"
                         }
                     },
                     "400": {
@@ -176,9 +151,21 @@ var doc = `{
                 "tags": [
                     "标签模块相关接口"
                 ],
-                "summary": "获取单个标签"
+                "summary": "获取单个标签",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "标签 ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ]
             },
             "put": {
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -195,37 +182,12 @@ var doc = `{
                         "required": true
                     },
                     {
-                        "maxLength": 100,
-                        "minLength": 3,
-                        "description": "标签名称",
-                        "name": "name",
-                        "in": "body",
-                        "schema": {
-                            "type": "primitive"
-                        }
-                    },
-                    {
-                        "enum": [
-                            0,
-                            1
-                        ],
-                        "default": 1,
-                        "description": "状态",
-                        "name": "state",
-                        "in": "body",
-                        "schema": {
-                            "type": "primitive"
-                        }
-                    },
-                    {
-                        "maxLength": 100,
-                        "minLength": 3,
-                        "description": "修改者",
-                        "name": "modified_by",
+                        "description": "更新标签结构体",
+                        "name": "tag",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "primitive"
+                            "$ref": "#/definitions/service.UpdateTagRequest"
                         }
                     }
                 ],
@@ -336,10 +298,12 @@ var doc = `{
                     "type": "integer"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Kaindy"
                 },
                 "state": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -354,6 +318,45 @@ var doc = `{
                 },
                 "pager": {
                     "$ref": "#/definitions/app.Pager"
+                }
+            }
+        },
+        "service.CreateTagRequest": {
+            "type": "object",
+            "required": [
+                "created_by",
+                "name"
+            ],
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "integer"
+                }
+            }
+        },
+        "service.UpdateTagRequest": {
+            "type": "object",
+            "required": [
+                "modified_by",
+                "state"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "integer"
                 }
             }
         }
@@ -372,8 +375,8 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "http://127.0.0.1:8000",
-	BasePath:    "/api/v1",
+	Host:        "127.0.0.1:8000",
+	BasePath:    "",
 	Schemes:     []string{},
 	Title:       "博客系统 (这里是标题)",
 	Description: "Go 语言编程之旅：一起用 Go 做项目 (描述信息)",

@@ -15,8 +15,7 @@
         },
         "version": "1.0"
     },
-    "host": "http://127.0.0.1:8000",
-    "basePath": "/api/v1",
+    "host": "127.0.0.1:8000",
     "paths": {
         "/api/v1/tags": {
             "get": {
@@ -84,6 +83,7 @@
                 }
             },
             "post": {
+                "description": "创建一个薪的标签",
                 "consumes": [
                     "application/json"
                 ],
@@ -93,41 +93,15 @@
                 "tags": [
                     "标签模块相关接口"
                 ],
-                "summary": "新增标签",
+                "summary": "创建标签",
                 "parameters": [
                     {
-                        "maxLength": 100,
-                        "minLength": 3,
-                        "description": "标签名称",
-                        "name": "name",
+                        "description": "创建标签结构体",
+                        "name": "tag",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "primitive"
-                        }
-                    },
-                    {
-                        "enum": [
-                            0,
-                            1
-                        ],
-                        "default": 1,
-                        "description": "状态",
-                        "name": "state",
-                        "in": "body",
-                        "schema": {
-                            "type": "primitive"
-                        }
-                    },
-                    {
-                        "maxLength": 100,
-                        "minLength": 3,
-                        "description": "创建者",
-                        "name": "created_by",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "primitive"
+                            "$ref": "#/definitions/service.CreateTagRequest"
                         }
                     }
                 ],
@@ -135,7 +109,7 @@
                     "200": {
                         "description": "成功",
                         "schema": {
-                            "$ref": "#/definitions/model.Tag"
+                            "$ref": "#/definitions/model.TagSwagger"
                         }
                     },
                     "400": {
@@ -162,9 +136,21 @@
                 "tags": [
                     "标签模块相关接口"
                 ],
-                "summary": "获取单个标签"
+                "summary": "获取单个标签",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "标签 ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ]
             },
             "put": {
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -181,37 +167,12 @@
                         "required": true
                     },
                     {
-                        "maxLength": 100,
-                        "minLength": 3,
-                        "description": "标签名称",
-                        "name": "name",
-                        "in": "body",
-                        "schema": {
-                            "type": "primitive"
-                        }
-                    },
-                    {
-                        "enum": [
-                            0,
-                            1
-                        ],
-                        "default": 1,
-                        "description": "状态",
-                        "name": "state",
-                        "in": "body",
-                        "schema": {
-                            "type": "primitive"
-                        }
-                    },
-                    {
-                        "maxLength": 100,
-                        "minLength": 3,
-                        "description": "修改者",
-                        "name": "modified_by",
+                        "description": "更新标签结构体",
+                        "name": "tag",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "primitive"
+                            "$ref": "#/definitions/service.UpdateTagRequest"
                         }
                     }
                 ],
@@ -322,10 +283,12 @@
                     "type": "integer"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Kaindy"
                 },
                 "state": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -340,6 +303,45 @@
                 },
                 "pager": {
                     "$ref": "#/definitions/app.Pager"
+                }
+            }
+        },
+        "service.CreateTagRequest": {
+            "type": "object",
+            "required": [
+                "created_by",
+                "name"
+            ],
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "integer"
+                }
+            }
+        },
+        "service.UpdateTagRequest": {
+            "type": "object",
+            "required": [
+                "modified_by",
+                "state"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "integer"
                 }
             }
         }

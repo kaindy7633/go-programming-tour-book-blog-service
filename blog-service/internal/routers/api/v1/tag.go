@@ -15,17 +15,17 @@ func NewTag() Tag {
 	return Tag{}
 }
 
-// @Summary 获取单个标签
-// @Produce json
 // @Tags 标签模块相关接口
+// @Summary 获取单个标签
 // @Description 获取单个标签
+// @Produce json
+// @Param id path int true "标签 ID"
 // @Router /api/v1/tags/{id} [get]
 func (t Tag) Get(c *gin.Context) {}
 
-// 标签模块相关接口
+// @Tags 标签模块相关接口
 // @Summary 获取多个标签
 // @Produce json
-// @Tags 标签模块相关接口
 // @accept json
 // @Param name query string false "标签名称" maxlength(100)
 // @Param state query int false "状态" Enums(0, 1) default(1)
@@ -45,9 +45,15 @@ func (t Tag) List(c *gin.Context) {
 		return
 	}
 
-	svc := service.New(c.Request.Context())
-	pager := app.Pager{Page: app.GetPage(c), PageSize: app.GetPageSize(c)}
-	totalRows, err := svc.CountTag(&service.CountTagRequest{Name: param.Name, State: param.State})
+	svc := service.New(c)
+	pager := app.Pager{
+		Page:     app.GetPage(c),
+		PageSize: app.GetPageSize(c),
+	}
+	totalRows, err := svc.CountTag(&service.CountTagRequest{
+		Name:  param.Name,
+		State: param.State,
+	})
 	if err != nil {
 		global.Logger.Errorf("svc.CountTag err: %v", err)
 		response.ToErrorResponse(errcode.ErrorCountTagFail)
@@ -64,15 +70,13 @@ func (t Tag) List(c *gin.Context) {
 	response.ToResponseList(tags, totalRows)
 }
 
-// 标签模块相关接口
-// @Summary 新增标签
-// @Produce json
 // @Tags 标签模块相关接口
-// @Accept json
-// @Param name body string true "标签名称" minlength(3) maxlength(100)
-// @Param state body int false "状态" Enums(0, 1) default(1)
-// @Param created_by body string true "创建者" minlength(3) maxlength(100)
-// @Success 200 {object} model.Tag "成功"
+// @Summary 创建标签
+// @Description 创建一个薪的标签
+// @Accept  json
+// @Produce  json
+// @Param tag body service.CreateTagRequest true "创建标签结构体"
+// @Success 200 {object} model.TagSwagger "成功"
 // @Failure 400 {object} errcode.Error "请求错误"
 // @Failure 500 {object} errcode.Error "内部错误"
 // @Router /api/v1/tags [post]
@@ -97,13 +101,12 @@ func (t Tag) Create(c *gin.Context) {
 	response.ToResponse(gin.H{})
 }
 
-// @Summary 更新标签
-// @Produce json
 // @Tags 标签模块相关接口
+// @Summary 更新标签
+// @Accept  json
+// @Produce json
 // @Param id path int true "标签 ID"
-// @Param name body string false "标签名称" minlength(3) maxlength(100)
-// @Param state body int false "状态" Enums(0, 1) default(1)
-// @Param modified_by body string true "修改者" minlength(3) maxlength(100)
+// @Param tag body service.UpdateTagRequest true "更新标签结构体"
 // @Success 200 {array} model.Tag "成功"
 // @Failure 400 {object} errcode.Error "请求错误"
 // @Failure 500 {object} errcode.Error "内部错误"
@@ -129,9 +132,9 @@ func (t Tag) Update(c *gin.Context) {
 	response.ToResponse(gin.H{})
 }
 
+// @Tags 标签模块相关接口
 // @Summary 删除标签
 // @Produce json
-// @Tags 标签模块相关接口
 // @Param id path int true "标签 ID"
 // @Success 200 {string} string "成功"
 // @Failure 400 {object} errcode.Error "请求错误"

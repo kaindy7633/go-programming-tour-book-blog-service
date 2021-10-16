@@ -1,4 +1,3 @@
-basePath: /api/v1
 definitions:
   app.Pager:
     properties:
@@ -28,8 +27,10 @@ definitions:
       modified_on:
         type: integer
       name:
+        example: Kaindy
         type: string
       state:
+        example: 1
         type: integer
     type: object
   model.TagSwagger:
@@ -41,7 +42,33 @@ definitions:
       pager:
         $ref: '#/definitions/app.Pager'
     type: object
-host: http://127.0.0.1:8000
+  service.CreateTagRequest:
+    properties:
+      created_by:
+        type: string
+      name:
+        type: string
+      state:
+        type: integer
+    required:
+    - created_by
+    - name
+    type: object
+  service.UpdateTagRequest:
+    properties:
+      id:
+        type: integer
+      modified_by:
+        type: string
+      name:
+        type: string
+      state:
+        type: integer
+    required:
+    - modified_by
+    - state
+    type: object
+host: 127.0.0.1:8000
 info:
   contact:
     email: support@swagger.io
@@ -102,39 +129,21 @@ paths:
     post:
       consumes:
       - application/json
+      description: 创建一个薪的标签
       parameters:
-      - description: 标签名称
+      - description: 创建标签结构体
         in: body
-        maxLength: 100
-        minLength: 3
-        name: name
+        name: tag
         required: true
         schema:
-          type: primitive
-      - default: 1
-        description: 状态
-        enum:
-        - 0
-        - 1
-        in: body
-        name: state
-        schema:
-          type: primitive
-      - description: 创建者
-        in: body
-        maxLength: 100
-        minLength: 3
-        name: created_by
-        required: true
-        schema:
-          type: primitive
+          $ref: '#/definitions/service.CreateTagRequest'
       produces:
       - application/json
       responses:
         "200":
           description: 成功
           schema:
-            $ref: '#/definitions/model.Tag'
+            $ref: '#/definitions/model.TagSwagger'
         "400":
           description: 请求错误
           schema:
@@ -143,7 +152,7 @@ paths:
           description: 内部错误
           schema:
             $ref: '#/definitions/errcode.Error'
-      summary: 新增标签
+      summary: 创建标签
       tags:
       - 标签模块相关接口
   /api/v1/tags/{id}:
@@ -174,42 +183,32 @@ paths:
       - 标签模块相关接口
     get:
       description: 获取单个标签
-      produces:
-      - application/json
-      summary: 获取单个标签
-      tags:
-      - 标签模块相关接口
-    put:
       parameters:
       - description: 标签 ID
         in: path
         name: id
         required: true
         type: integer
-      - description: 标签名称
+      produces:
+      - application/json
+      summary: 获取单个标签
+      tags:
+      - 标签模块相关接口
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 标签 ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新标签结构体
         in: body
-        maxLength: 100
-        minLength: 3
-        name: name
-        schema:
-          type: primitive
-      - default: 1
-        description: 状态
-        enum:
-        - 0
-        - 1
-        in: body
-        name: state
-        schema:
-          type: primitive
-      - description: 修改者
-        in: body
-        maxLength: 100
-        minLength: 3
-        name: modified_by
+        name: tag
         required: true
         schema:
-          type: primitive
+          $ref: '#/definitions/service.UpdateTagRequest'
       produces:
       - application/json
       responses:

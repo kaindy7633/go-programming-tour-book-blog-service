@@ -51,8 +51,8 @@ func init() {
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host http://127.0.0.1:8000
-// @BasePath /api/v1
+// @host 127.0.0.1:8000
+// @BasePath
 func main() {
 	global.Logger.Infof("%s: go-programming-tour-book/%s", "eddycjy", "blog-service")
 	gin.SetMode(global.ServerSetting.RunMode)
