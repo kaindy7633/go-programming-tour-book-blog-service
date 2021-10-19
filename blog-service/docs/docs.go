@@ -271,7 +271,21 @@ var doc = `{
             }
         },
         "errcode.Error": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "details": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
         },
         "model.Tag": {
             "type": "object",

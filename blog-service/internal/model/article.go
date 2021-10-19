@@ -1,6 +1,8 @@
 package model
 
-import "github.com/kaindy7633/go-programming-tour-book/blog-service/pkg/app"
+import (
+	"github.com/kaindy7633/go-programming-tour-book/blog-service/pkg/app"
+)
 
 type Article struct {
 	*Model

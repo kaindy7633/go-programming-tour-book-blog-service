@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/kaindy7633/go-programming-tour-book/blog-service/docs"
 	"github.com/kaindy7633/go-programming-tour-book/blog-service/internal/middleware"
+	"github.com/kaindy7633/go-programming-tour-book/blog-service/internal/routers/api"
 	v1 "github.com/kaindy7633/go-programming-tour-book/blog-service/internal/routers/api/v1"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
@@ -19,6 +20,11 @@ func NewRouter() *gin.Engine {
 
 	article := v1.NewArticle()
 	tag := v1.NewTag()
+
+	// 上传文件服务
+	upload := api.NewUpload()
+	r.POST("/upload/file", upload.UploadFile)
+
 	apiv1 := r.Group("/api/v1")
 	{
 		apiv1.POST("/tags", tag.Create)

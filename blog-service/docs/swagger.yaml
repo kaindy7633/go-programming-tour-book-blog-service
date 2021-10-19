@@ -9,6 +9,15 @@ definitions:
         type: integer
     type: object
   errcode.Error:
+    properties:
+      code:
+        type: integer
+      details:
+        items:
+          type: string
+        type: array
+      msg:
+        type: string
     type: object
   model.Tag:
     properties:

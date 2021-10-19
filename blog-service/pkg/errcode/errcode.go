@@ -6,9 +6,9 @@ import (
 )
 
 type Error struct {
-	code    int
-	msg     string
-	details []string
+	Code    int
+	Msg     string
+	Details []string
 }
 
 var codes = map[int]string{}
@@ -18,33 +18,33 @@ func NewError(code int, msg string) *Error {
 		panic(fmt.Sprintf("错误码 %d 已经存在，请更换一个", code))
 	}
 	codes[code] = msg
-	return &Error{code: code, msg: msg}
+	return &Error{Code: code, Msg: msg}
 }
 
 func (e Error) Error() string {
-	return fmt.Sprintf("错误码: %d, 错误信息: %s", e.Code(), e.Msg())
+	return fmt.Sprintf("错误码: %d, 错误信息: %s", e.GetCode(), e.GetMsg())
 }
 
-func (e *Error) Code() int {
-	return e.code
+func (e *Error) GetCode() int {
+	return e.Code
 }
 
-func (e *Error) Msg() string {
-	return e.msg
+func (e *Error) GetMsg() string {
+	return e.Msg
 }
 
 func (e *Error) Msgf(args []interface{}) string {
-	return fmt.Sprintf(e.msg, args...)
+	return fmt.Sprintf(e.Msg, args...)
 }
 
-func (e *Error) Details() []string {
-	return e.details
+func (e *Error) GetDetails() []string {
+	return e.Details
 }
 
 func (e *Error) WithDetails(details ...string) *Error {
 	newError := *e
-	newError.details = []string{}
-	newError.details = append(newError.details, details...)
+	newError.Details = []string{}
+	newError.Details = append(newError.Details, details...)
 	// for _, d := range details {
 	// 	newError.details = append(newError.details, d)
 	// }
@@ -53,22 +53,22 @@ func (e *Error) WithDetails(details ...string) *Error {
 }
 
 func (e *Error) StatusCode() int {
-	switch e.Code() {
-	case Success.Code():
+	switch e.GetCode() {
+	case Success.GetCode():
 		return http.StatusOK
-	case ServerError.Code():
+	case ServerError.GetCode():
 		return http.StatusInternalServerError
-	case InvalidParams.Code():
+	case InvalidParams.GetCode():
 		return http.StatusBadRequest
-	case UnauthorizedAuthNotExist.Code():
+	case UnauthorizedAuthNotExist.GetCode():
 		fallthrough
-	case UnauthorizedTokenError.Code():
+	case UnauthorizedTokenError.GetCode():
 		fallthrough
-	case UnauthorizedTokenGenerate.Code():
+	case UnauthorizedTokenGenerate.GetCode():
 		fallthrough
-	case UnauthorizedTokenTimeout.Code():
+	case UnauthorizedTokenTimeout.GetCode():
 		return http.StatusUnauthorized
-	case TooManyRequests.Code():
+	case TooManyRequests.GetCode():
 		return http.StatusTooManyRequests
 	}
 
