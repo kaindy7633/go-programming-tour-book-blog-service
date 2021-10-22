@@ -31,3 +31,12 @@ JWT:
   Secret: kaindy7633
   Issuer: blog-service
   Expire: 7200
+Email:
+  Host: smtp.qq.com
+  Port: 465
+  UserName: xxxx@qq.com
+  Password: xxxxx
+  IsSSL: True
+  From: xxxx@qq.com
+  To:
+    - xyz@qq.com

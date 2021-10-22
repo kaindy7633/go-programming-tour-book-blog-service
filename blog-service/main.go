@@ -95,6 +95,12 @@ func setupSetting() error {
 	}
 	global.JWTSetting.Expire *= int(time.Second)
 
+	// Send Email Config
+	err = setting.ReadSection("Email", &global.EmailSetting)
+	if err != nil {
+		return err
+	}
+
 	global.ServerSetting.ReadTimeout *= time.Second
 	global.ServerSetting.WriteTimeout *= time.Second
 
